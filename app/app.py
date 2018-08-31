@@ -2,21 +2,22 @@
 import random
 from flask import Flask, jsonify, abort, make_response, request
 
-app = Flask(__name__)
+APP = Flask(__name__)
 
 ## Custom JSON 404 and 400 errors so that response codes can be processed
 ## by client
-@app.errorhandler(404)
+@APP.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
-@app.errorhandler(400)
+@APP.errorhandler(400)
 def bad_request(error):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
-## Randomword route for 'post' action. 
-# get needs to be idempotent for REST so it is inappropriate for a random response
-@app.route('/api/v1.0/randomword', methods=['post'])
+## Randomword route for 'post' action.
+# get needs to be idempotent for REST so it is inappropriate for
+# a random response
+@APP.route('/api/v1.0/randomword', methods=['post'])
 def random_word():
     # extract JSON if possible and respond 400 otherwise
     request_json = request.get_json()
@@ -37,4 +38,4 @@ def random_word():
     return jsonify({'word': random_word_choice})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    APP.run(debug=True)
