@@ -51,7 +51,10 @@ def all_rhymes(word):
         combined_rhymes = list(chain.from_iterable(combined_rhymes))
         # sort the new combined list
         combined_rhymes.sort()
-        return combined_rhymes
+        # convert to set to eliminate duplicates
+        unique_combined_rhymes = set(combined_rhymes)
+        # return combined set as list
+        return list(unique_combined_rhymes)
     else:
         return []
 
