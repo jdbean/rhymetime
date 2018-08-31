@@ -1,5 +1,6 @@
 #!flask/bin/python
 import random
+import pronouncing
 from flask import Flask, jsonify, abort, make_response, request
 
 APP = Flask(__name__)
@@ -43,6 +44,12 @@ def random_word_choice():
     random_word_choice = random.choice(words_list)
     # respond with a json payload containing randomly choosen word
     return jsonify({'word': random_word_choice})
+
+@APP.route('/api/v1.0/words/rhymes/', methods=['get'])
+def get_rhymes():
+    word = request.args.get('query')
+    rhymes = pronouncing.rhymes(word)
+    return jsonify({'ryhmes': rhymes})
 
 if __name__ == '__main__':
     APP.run(debug=True)
