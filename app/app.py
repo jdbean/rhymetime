@@ -63,7 +63,7 @@ def get_rhymes():
     # store value of 'query' key in query to variable
     word = request.args.get('query')
     # store value of regex pattern for any non alpha character
-    valid_char_pattern = r'[^A-Za-z]'
+    valid_char_pattern = r'[^A-Za-z\']'
     # check if word non-nil and composed of only valid english-language alpha
     # chars. Regex test is applied her to avoid uneeded dictionary lookup and
     # to distinguish 'Not Found' (404) from 'Bad Request' (400)
