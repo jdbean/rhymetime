@@ -14,11 +14,18 @@ def not_found(error):
 def bad_request(error):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
-## Randomword route for 'post' action.
-# get needs to be idempotent for REST so it is inappropriate for
-# a random response
-@APP.route('/api/v1.0/randomword', methods=['post'])
-def random_word():
+## Randomchoice route for 'post' action.
+# This route should typically be a GET request. However,
+# it has been designated a POST request after some consideration.
+# This particular feature is required to accept arguments
+# of unspecified length. A GET request's maximum URL will be
+# impacted by choice of client and production webserver but could
+# be as slow as ~2000 charachters. The choice to use POST here is
+# questionable within the REST paradigm but appears to be a common
+# choice when confronting the potential of a client request being
+# rejected with a 414 error due to excessive length. 
+@APP.route('/api/v1.0/words/randomchoice', methods=['post'])
+def random_word_choice():
     # extract JSON if possible and respond 400 otherwise
     request_json = request.get_json()
     # check if the request contains a 'words' key otherwise respond 400
