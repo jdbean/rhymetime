@@ -23,7 +23,7 @@ def bad_request(error):
 # be as slow as ~2000 charachters. The choice to use POST here is
 # questionable within the REST paradigm but appears to be a common
 # choice when confronting the potential of a client request being
-# rejected with a 414 error due to excessive length. 
+# rejected with a 414 error due to excessive length.
 @APP.route('/api/v1.0/words/randomchoice', methods=['post'])
 def random_word_choice():
     # extract JSON if possible and respond 400 otherwise
