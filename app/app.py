@@ -33,6 +33,8 @@ def try_int(string):
 #
 # NOTE: THIS FUNCTION IS BASED ON CODE FROM PRONOUNCING
 # `pronouncingpy/pronouncing/__init__.py` line 203
+# issue: https://github.com/aparrish/pronouncingpy/issues/45
+# pull-request: https://github.com/aparrish/pronouncingpy/pull/46
 def all_rhymes(word):
     # find list of all pronunciations for word
     phones = pronouncing.phones_for_word(word)
