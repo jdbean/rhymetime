@@ -3,10 +3,11 @@ from itertools import chain
 import random
 import re
 import pronouncing
+from flask import jsonify, abort, make_response, request
+from rhymetime import APP
 
-from flask import Flask, jsonify, abort, make_response, request
 
-APP = Flask(__name__)
+# APP = Flask(__name__)
 
 ## Custom JSON 404 and 400 errors so that response codes can be processed
 ## by client
@@ -49,12 +50,8 @@ def all_rhymes(word):
                                    if w != word])
         # flatten list of lists
         combined_rhymes = list(chain.from_iterable(combined_rhymes))
-        # convert to set to eliminate duplicates
+        # convert to set to eliminate duplicates and sort
         unique_combined_rhymes = sorted(set(combined_rhymes))
-        # # sort the new combined list
-        # unique_combined_rhymes = list(unique_combined_rhymes)
-        # return combined set as list
-        print(unique_combined_rhymes)
         return unique_combined_rhymes
     else:
         return []
@@ -124,7 +121,7 @@ def get_rhymes():
     word = validate_english_word(request.args)
     # Use pronouncing to find potential rhymes and store in variable rhymes
     pronounce_str = request.args.get('pronunciation_id')
-    if pronounce_str:
+    if pronounce_str and pronounce_str != "":
         # Assign pronounce to return of try_int() [int or false]
         pronounce_id = try_int(pronounce_str)
         # find list of all pronunciations for word
@@ -139,6 +136,13 @@ def get_rhymes():
         rhyme_sound = pronouncing.rhyming_part(pronunciations[pronounce_id])
         # store list of rhyming words
         rhymes = pronouncing.search(rhyme_sound + "$")
+        # dedup
+        rhymes = set(rhymes)
+        # discard the word itself because 'rhyming' a word with itself
+        # doesn't count
+        rhymes.discard(word)
+        #convert set into sorted list
+        rhymes = sorted(rhymes)
     else:
         # if no pronunciation_id is provided by user, store list of rhymes for
         # all pronunciatons of the word
@@ -156,6 +160,3 @@ def get_pronunciations():
     pronunciations = pronouncing.phones_for_word(word)
     # return list pronunciation phones and the queried word to user
     return jsonify({'pronunciations': pronunciations, 'word': word})
-
-if __name__ == '__main__':
-    APP.run(debug=True)
