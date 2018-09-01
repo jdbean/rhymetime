@@ -83,6 +83,10 @@ to provide a more advanced search feature than `GET rhymes` alone.
     `$ flask run`
 
 
+Alternatively, you may use the included `dockerfile` to create
+a docker image/container.
+
+
 # Tests
 
 Tests have been created for this project and are located in the `/tests`
