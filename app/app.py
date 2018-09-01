@@ -49,12 +49,13 @@ def all_rhymes(word):
                                    if w != word])
         # flatten list of lists
         combined_rhymes = list(chain.from_iterable(combined_rhymes))
-        # sort the new combined list
-        combined_rhymes.sort()
         # convert to set to eliminate duplicates
-        unique_combined_rhymes = set(combined_rhymes)
+        unique_combined_rhymes = sorted(set(combined_rhymes))
+        # # sort the new combined list
+        # unique_combined_rhymes = list(unique_combined_rhymes)
         # return combined set as list
-        return list(unique_combined_rhymes)
+        print(unique_combined_rhymes)
+        return unique_combined_rhymes
     else:
         return []
 
@@ -123,7 +124,6 @@ def get_rhymes():
     word = validate_english_word(request.args)
     # Use pronouncing to find potential rhymes and store in variable rhymes
     pronounce_str = request.args.get('pronunciation_id')
-
     if pronounce_str:
         # Assign pronounce to return of try_int() [int or false]
         pronounce_id = try_int(pronounce_str)
