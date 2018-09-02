@@ -6,9 +6,6 @@ import pronouncing
 from flask import jsonify, abort, make_response, request
 from rhymetime import APP
 
-
-# APP = Flask(__name__)
-
 ## Custom JSON 404 and 400 errors so that response codes can be processed
 ## by client
 @APP.errorhandler(404)
@@ -26,6 +23,7 @@ def try_int(string):
         return integer
     except ValueError:
         return False
+
 # Helper function to find all rhymes for all known pronunciations of a word
 # Achieves advertised functionality of pronouncing.rhymes() at
 # https://pronouncing.readthedocs.io/en/latest/tutorial.html#rhyme
@@ -56,6 +54,8 @@ def all_rhymes(word):
     else:
         return []
 
+# Helper function to validate 'word' param in query string
+# as an english word appearing in CMU Pronouncing dictionary
 def validate_english_word(args):
     # store value of 'word' key in query to variable
     word = args.get('word')
@@ -110,7 +110,11 @@ def random_word_choice():
     # respond with a json payload containing randomly choosen word
     return jsonify({'word': random_word_chosen})
 
-## rhymes route for 'get' action.
+## rhymes route for GET action.
+# Takes an english word and optionally a pronunciation index number
+# as pronunciation_id returns a list of potential rhymes for all
+# pronunciations of word or only the specified pronunciation if
+# optional arg is provided.
 @APP.route('/api/v1.0/words/rhymes', methods=['get'])
 # Accepts an english word and returns that word along with an array
 # of words that rhymes with potential pronunciations of that word.
@@ -151,7 +155,9 @@ def get_rhymes():
     return jsonify({'rhymes': rhymes, 'word': word})
 
 
-
+## pronunciation route for GET action.
+# Takes an english word and returns a list of
+# potential pronunciations in ARPAbet notation
 @APP.route('/api/v1.0/words/pronunciations', methods=['get'])
 def get_pronunciations():
     # Validate the requested english word and if return, store word in variable

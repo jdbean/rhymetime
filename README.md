@@ -66,13 +66,13 @@ to provide a more advanced search feature than `GET rhymes` alone.
 1. Unpack/Clone this repo
 1. Open a Terminal in the root directory of this project
 1. (Optionally) Create a virtual environment (`venv`) and activate it by running:
-    
+
     `$ source ./venv/bin/activate`
 
 1. Install pip and wheel (if not already installed)
 1. Install dependencies listed in `requirements.txt` by executing:
 
-    `$ pip install -r ./requirements.txt` 
+    `$ pip install -r ./requirements.txt`
 
 1. Set the Flask environment variable:
 
@@ -90,7 +90,7 @@ a docker image/container.
 # Tests
 
 Tests have been created for this project and are located in the `/tests`
-directory. in order to run the tests execute `pytest` or, for more 
+directory. in order to run the tests execute `pytest` or, for more
 details `pytest -v`.
 
 [^1]: https://en.wikipedia.org/wiki/ARPABET
